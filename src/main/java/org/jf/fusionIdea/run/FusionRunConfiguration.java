@@ -52,6 +52,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jf.fusionIdea.executor.FusionDebugExecutor;
+import org.jf.fusionIdea.notification.FusionIdeaPluginNotifier;
 
 import java.io.File;
 import java.util.Collection;
@@ -66,9 +67,13 @@ public class FusionRunConfiguration extends ModuleBasedConfiguration<RunConfigur
     private String sdkName;
     private boolean useModuleSdk;
 
+    private final FusionIdeaPluginNotifier notifier;
+
+
     public FusionRunConfiguration(Project project, ConfigurationFactory factory) {
         super(new RunConfigurationModule(project), factory);
         getConfigurationModule().setModuleToAnyFirstIfNotSpecified();
+        notifier = new FusionIdeaPluginNotifier();
     }
 
     @Override public boolean canRunOn(@NotNull ExecutionTarget target) {
@@ -129,6 +134,13 @@ public class FusionRunConfiguration extends ModuleBasedConfiguration<RunConfigur
 
     public void setScript(String script) {
         this.script = script;
+        if(getModule() != null) {
+            sendNotification("Script is set to '%s'".formatted(script), getModule().getProject());
+        }
+    }
+
+    private void sendNotification(String message, Project project){
+        notifier.notify(message, project);
     }
 
     public void setSdkName(@Nullable String sdkName) {

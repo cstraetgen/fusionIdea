@@ -167,6 +167,7 @@ etc.</li>
         <executor implementation="org.jf.fusionIdea.executor.FusionRunExecutor" />
         <executor implementation="org.jf.fusionIdea.executor.FusionDebugExecutor" />
         <executionTargetProvider implementation="org.jf.fusionIdea.run.FusionExecutionTargetProvider" />
+        <notificationGroup id="FusionIdeaPluginNotifications" displayType="BALLOON" />
     </extensions>
 
     <extensions defaultExtensionNs="Pythonid">
